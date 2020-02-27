@@ -1,0 +1,6 @@
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\PathOverlay\Assemblies\PathOverlay.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\PathOverlay\Assemblies\PathOverlay.pdb
+C:\Users\stopc\Documents\Rimworld Modding\PathOverlay\obj\Debug\PathOverlay.csprojAssemblyReference.cache
+C:\Users\stopc\Documents\Rimworld Modding\PathOverlay\obj\Debug\PathOverlay.csproj.CopyComplete
+C:\Users\stopc\Documents\Rimworld Modding\PathOverlay\obj\Debug\PathOverlay.dll
+C:\Users\stopc\Documents\Rimworld Modding\PathOverlay\obj\Debug\PathOverlay.pdb
