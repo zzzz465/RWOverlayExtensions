@@ -37,8 +37,9 @@ namespace Madeline.PathOverlay
             drawer.SetDirty();
         }
 
-        public void Notify_ColorChanged(int x, int z, Color color)
+        public bool Notify_ColorChanged(int x, int z, Color color)
         {
+            return false;
             // do nothing.
         }
     }

@@ -16,7 +16,9 @@ namespace Madeline.PathOverlay
         void DoHarmonyPatch()
         {
             var harmony = new Harmony("Madeline.PathOverlay");
-            HarmonyPatches.DoPatch(harmony);
+            PathHistoryGridHarmonyPatch.DoPatch(harmony);
+            FilthGridHarmonyPatch.DoPatch(harmony);
+            OverlayButtonHarmonyPatch.DoPatch(harmony);
         }
     }
 }

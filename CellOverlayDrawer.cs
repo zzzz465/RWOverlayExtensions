@@ -12,25 +12,26 @@ namespace Madeline.PathOverlay
 		Material material;
 		bool materialCaresAboutVertexColors;
 		float opacity { get; set; } = 0.33f;
-		public Color BackgroundColor { get; set; } = new Color32(50, 50, 50, 255);
         public bool ShouldDraw { get; set; }
         Func<int, bool> DrawCellOverlay;
-        Func<int, Color> CellColorGetter;
+        Func<int, Color> CellInitialColorGetter;
 		List<ChunkedMesh> chunkedMeshes = new List<ChunkedMesh>();
         Map map;
 		bool chunkedMeshesGenerated = false;
-        public void Initialize(Func<int, bool> DrawCellOverlay, Func<int, Color> CellColorGetter, Map map)
+		bool DebugString = true;
+        public void Initialize(Func<int, bool> DrawCellOverlay, Func<int, Color> CellInitialColorGetter, Map map)
         {
             this.DrawCellOverlay = DrawCellOverlay;
-            this.CellColorGetter = CellColorGetter;
+            this.CellInitialColorGetter = CellInitialColorGetter;
             this.map = map;
-			this.BackgroundColor = BackgroundColor;
 			this.opacity = opacity;
         }
 
 		void GenerateChunkedMeshes()
 		{
-			//Log.Message("Generating Chunk Meshes");
+			if(DebugString)
+				Log.Message("Generating Chunk Meshes", true);
+
 			CellRect cellRect = new CellRect(0, 0, map.Size.x, map.Size.z);
 			chunkedMeshes.Add(new ChunkedMesh());
 			int curChunkedMeshIndex = 0;
@@ -43,7 +44,7 @@ namespace Madeline.PathOverlay
 				for(int z = cellRect.minZ; z <= cellRect.maxZ; z++)
 				{
 					int CellIndex = CellIndicesUtility.CellToIndex(x, z, map.Size.x);
-					var cellColor = CellColorGetter(CellIndex);
+					var cellColor = CellInitialColorGetter(CellIndex);
 					currentChunkedMesh.AddCell(x, z, cellColor);
 					AddedCellCountPerChunk++;
 
@@ -61,15 +62,16 @@ namespace Madeline.PathOverlay
 			CreateMaterialIfNeeded(true);
 		}
 
-		public void Notify_ColorChanged(int x, int z, Color color)
+		public bool Notify_ColorChanged(int x, int z, Color color)
 		{
 			foreach(var chunk in chunkedMeshes)
 			{
 				if(chunk.ChangeColor(x, z, color))
-					return;
+					return true;
 			}
 
 			Log.Error("None of ChunkedMesh can handle the notify request!");
+			return false;
 		}
 
         public void UpdateOverlayDrawer()

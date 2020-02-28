@@ -7,9 +7,11 @@ namespace Madeline.PathOverlay
     public class OverlayMapComponent : MapComponent
     {
         public PathHistoryGrid pathHistoryGrid;
+        public FilthGrid filthGrid;
         public OverlayMapComponent(Map map) : base(map)
         {
             pathHistoryGrid = new PathHistoryGrid(map);
+            filthGrid = new FilthGrid(map);
         }
 
         public override void MapComponentTick()
@@ -19,7 +21,8 @@ namespace Madeline.PathOverlay
 
         public override void MapComponentUpdate()
         {
-            pathHistoryGrid.PathHistoryGridUpdate();
+            pathHistoryGrid.UpdateGrid();
+            filthGrid.UpdateGrid();
         }
 
         public override void MapComponentOnGUI()

@@ -82,7 +82,7 @@ namespace Madeline.PathOverlay
             if(verts.Count > 0)
             {
                 mesh.Clear();
-                Log.Message("Reconstructing mesh...");
+                //Log.Message("Reconstructing mesh...");
                 mesh.SetVertices(verts);
                 mesh.SetTriangles(tris, 0);
                 mesh.SetColors(colors);

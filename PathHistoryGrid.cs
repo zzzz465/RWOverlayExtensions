@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Madeline.PathOverlay
 {
-    public class PathHistoryGrid
+    public class PathHistoryGrid : iGrid
     {
         public enum Filter
         {
@@ -17,8 +17,11 @@ namespace Madeline.PathOverlay
         }
         iOverlayDrawer drawer = new CellOverlayDrawer();
         Map map;
-        public int[] grid; // 0~1000?
-        public int IncrementPerEachVisit { get; set; } = 800;
+        public float[] grid; // 0~1000?
+        public float IncrementPerEachVisit { get; set; } = 800;
+        public float MaxAccumulatedVisit { get; set; } = 8000;
+        public float DecrementPerTick { get; set; } = 0.5f;
+        public float GreenColorBoundary { get; set; } = 1600;
         Color Green = new Color32(70, 180, 120, 255);
         Color Red = new Color32(180, 50, 50, 255);
         Color BackGround = new Color32(50, 50, 50, 255);
@@ -44,7 +47,7 @@ namespace Madeline.PathOverlay
 
         public void ResetPathGrid()
 		{
-			this.grid = new int[this.map.cellIndices.NumGridCells];
+			this.grid = new float[this.map.cellIndices.NumGridCells];
 		}
 
         public bool ShouldDrawCellOverlay(int cellIndex)
@@ -54,17 +57,19 @@ namespace Madeline.PathOverlay
 
         public Color GetCellColor(int cellIndex)
         {
-            int value = grid[cellIndex];
-            if(value < 800)
-            {
-                float normalized = (float)value / (float)IncrementPerEachVisit;
-                Log.Message("Normalized : " + normalized.ToString());
+            float value = grid[cellIndex];
+            if(value < GreenColorBoundary)
+            { // 배경 -> 초록색 넘어가는 구간
+                float normalized = (float)value / (float)GreenColorBoundary;
                 return Color.Lerp(BackGround, Green, normalized);
             }
             if(800 <= value)
-            { // 5단계까지, 이후는 Max니까,
-              // Max = 800 * 5 = 4000, Min = 800, 너비 3200
-                float normalized = (float)Mathf.Clamp((value - 800), 0, 3200) / (float)3200;
+            {
+                /*
+                  계산식 : 0부터 첫 방문 1단계까지는 배경 -> 초록색으로 Lerp을 하고
+                          1단계부터는 초록색-빨간색 Lerp을 해야하니 이전 값을 제외한 상태에서 Lerp 계산을 해야함.
+                */
+                float normalized = (float)Mathf.Clamp((value - GreenColorBoundary), 0, MaxAccumulatedVisit - GreenColorBoundary) / (float)(MaxAccumulatedVisit - GreenColorBoundary);
                 return Color.Lerp(Green, Red, normalized); // maxValue
             }
             
@@ -78,16 +83,9 @@ namespace Madeline.PathOverlay
 
             var cellIndex = CellIndicesUtility.CellToIndex(cell, map.Size.x);
             grid[cellIndex] += IncrementPerEachVisit;
+            grid[cellIndex] = Mathf.Clamp(grid[cellIndex], 0, MaxAccumulatedVisit);
             //grid[cellIndex] = Mathf.Clamp(grid[cellIndex], 0, 1000); // 여기에 최대, 최소값이 정의
-            Log.Message($"Increment Cell {cell.x} {cell.z}, value : {grid[cellIndex]}");
-
-            //테스트 전용, CellBoolDrawerWrapper일때만
-            var casted = drawer as CellBoolDrawerWrapper;
-            if(casted != null)
-            {
-                Log.Message("Re-drawing SetDirty");
-                casted.SetDirty();
-            }
+            //Log.Message($"Increment Cell {cell.x} {cell.z}, value : {grid[cellIndex]}");
         }
 
         bool isAllowedPawnType(Pawn pawn)
@@ -98,7 +96,7 @@ namespace Madeline.PathOverlay
                 return false;
         }
 
-        public void PathHistoryGridUpdate()
+        public void UpdateGrid()
         {
             drawer.ShouldDraw = OverlayGlobalSettings.DrawPathOverlay;
             drawer.UpdateOverlayDrawer();
@@ -120,11 +118,16 @@ namespace Madeline.PathOverlay
                         drawer.Notify_ColorChanged(Cell.x, Cell.z, new Color32(50, 50, 50, 255));
                         */
 
-                    grid[i] -= 1;
+                    grid[i] -= DecrementPerTick;
                     
                     var CellColor = GetCellColor(i);
-                    drawer.Notify_ColorChanged(Cell.x, Cell.z, CellColor);
-                    
+                    drawer.Notify_ColorChanged(Cell.x, Cell.z, CellColor);   
+                }
+                else if(grid[i] < 0)
+                {
+                    var Cell = CellIndicesUtility.IndexToCell(i, map.Size.x);
+                    grid[i] = 0;
+                    drawer.Notify_ColorChanged(Cell.x, Cell.z, BackGround);
                 }
             }
         }

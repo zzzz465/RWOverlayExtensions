@@ -9,8 +9,8 @@ namespace Madeline.PathOverlay
     public interface iOverlayDrawer
     {
         bool ShouldDraw { set; }
-        void Initialize(Func<int, bool> DrawCellOverlay, Func<int, Color> CellColorGetter, Map map);
+        void Initialize(Func<int, bool> DrawCellOverlay, Func<int, Color> CellInitialColorGetter, Map map);
         void UpdateOverlayDrawer();
-        void Notify_ColorChanged(int x, int z, Color color);
+        bool Notify_ColorChanged(int x, int z, Color color);
     }
 }
