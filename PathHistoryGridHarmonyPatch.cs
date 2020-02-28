@@ -6,7 +6,7 @@ using RimWorld;
 using HarmonyLib;
 using UnityEngine;
 
-namespace Madeline.PathOverlay
+namespace Madeline.OverlayExtension
 {
     public static class PathHistoryGridHarmonyPatch
     {

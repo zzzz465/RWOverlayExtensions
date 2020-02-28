@@ -1,4 +1,4 @@
-namespace Madeline.PathOverlay
+namespace Madeline.OverlayExtension
 {
     public static class OverlayGlobalSettings
     {

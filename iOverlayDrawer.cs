@@ -4,7 +4,7 @@ using UnityEngine;
 using RimWorld;
 using Verse;
 
-namespace Madeline.PathOverlay
+namespace Madeline.OverlayExtension
 {
     public interface iOverlayDrawer
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Verse;
 
-namespace Madeline.PathOverlay
+namespace Madeline.OverlayExtension
 {
     public class OverlayMapComponent : MapComponent
     {

@@ -2,7 +2,7 @@ using Verse;
 using HarmonyLib;
 using RimWorld;
 
-namespace Madeline.PathOverlay
+namespace Madeline.OverlayExtension
 {
     public static class FilthGridHarmonyPatch
     {

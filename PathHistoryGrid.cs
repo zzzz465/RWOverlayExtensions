@@ -5,7 +5,7 @@ using Verse;
 using RimWorld;
 using UnityEngine;
 
-namespace Madeline.PathOverlay
+namespace Madeline.OverlayExtension
 {
     public class PathHistoryGrid : iGrid
     {

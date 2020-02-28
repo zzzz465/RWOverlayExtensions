@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Verse;
 using RimWorld;
 
-namespace Madeline.PathOverlay
+namespace Madeline.OverlayExtension
 {
     public class TempertureGrid
     {

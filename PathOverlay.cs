@@ -1,15 +1,15 @@
-using System;
 using System.Collections.Generic;
 using HarmonyLib;
 using Verse;
+using UnityEngine;
 
-namespace Madeline.PathOverlay
+namespace Madeline.OverlayExtension
 {
-    public class PathOverlay : Mod
+    public class OverlayExtension : Mod
     {
-        public PathOverlay(ModContentPack pack) : base(pack)
+        public OverlayExtension(ModContentPack pack) : base(pack)
         {
-            Log.Message("Initializing Madeline's PathOverlay...");
+            Log.Message("Initializing Madeline's OverlayExtension...");
             DoHarmonyPatch();
         }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 using Verse;
 using System.Linq;
 
-namespace Madeline.PathOverlay
+namespace Madeline.OverlayExtension
 {
     public class ChunkedMesh
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using Verse;
 using RimWorld;
 
-namespace Madeline.PathOverlay
+namespace Madeline.OverlayExtension
 {
     public class FilthGrid : iGrid
     {
@@ -22,7 +22,7 @@ namespace Madeline.PathOverlay
         public int maxFilthCount { get; set; } = 5;
         List<ColorChangedRecord> recordCache = new List<ColorChangedRecord>();
         bool wasEnabled = false;
-        public bool DebugString = true;
+        public bool DebugString = false;
         public FilthGrid(Map map)
         {
             this.map = map;

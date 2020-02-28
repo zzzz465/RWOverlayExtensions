@@ -3,7 +3,7 @@ using Verse;
 using UnityEngine;
 using RimWorld;
 
-namespace Madeline.PathOverlay
+namespace Madeline.OverlayExtension
 {
     public static class OverlayButtonHarmonyPatch
     {

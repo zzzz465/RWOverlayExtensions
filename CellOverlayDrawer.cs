@@ -5,7 +5,7 @@ using UnityEngine;
 using Verse;
 using RimWorld;
 
-namespace Madeline.PathOverlay
+namespace Madeline.OverlayExtension
 {
     public class CellOverlayDrawer : iOverlayDrawer
     {
@@ -18,7 +18,7 @@ namespace Madeline.PathOverlay
 		List<ChunkedMesh> chunkedMeshes = new List<ChunkedMesh>();
         Map map;
 		bool chunkedMeshesGenerated = false;
-		bool DebugString = true;
+		bool DebugString = false;
         public void Initialize(Func<int, bool> DrawCellOverlay, Func<int, Color> CellInitialColorGetter, Map map)
         {
             this.DrawCellOverlay = DrawCellOverlay;
@@ -70,7 +70,7 @@ namespace Madeline.PathOverlay
 					return true;
 			}
 
-			Log.Error("None of ChunkedMesh can handle the notify request!");
+			//Log.Error("None of ChunkedMesh can handle the notify request!");
 			return false;
 		}
 
