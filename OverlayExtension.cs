@@ -15,10 +15,19 @@ namespace Madeline.OverlayExtension
 
         void DoHarmonyPatch()
         {
-            var harmony = new Harmony("Madeline.PathOverlay");
+            var harmony = new Harmony("Madeline.OverlayExtension");
             PathHistoryGridHarmonyPatch.DoPatch(harmony);
             FilthGridHarmonyPatch.DoPatch(harmony);
             OverlayButtonHarmonyPatch.DoPatch(harmony);
         }
+
+        /*
+        public override void DoSettingsWindowContents(Rect inRect)
+        {
+            Listing_Standard standard = new Listing_Standard();
+            standard.Begin(inRect);
+            standard.
+        }
+        */
     }
 }
